@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RUBA - The Future of Competitive Mobile Gaming on Solana. Enter the arena where skill meets blockchain technology.">
+    <title>RUBA - The Future of Competitive Mobile Gaming on Solana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .gradient-text { background: linear-gradient(135deg, #8B5CF6, #06B6D4, #8B5CF6); background-size: 200% 200%; animation: gradient-move 3s ease infinite; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        @keyframes gradient-move { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        
+        /* Smooth Rainbow text animation */
+        .rainbow-text {
+            background: linear-gradient(
+                90deg,
+                #ff0000, #ff9900, #ffee00, #33ff00, #00ffee, #0066ff, #cc00ff, #ff0000
+            );
+            background-size: 400% 400%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-smooth 8s ease-in-out infinite;
+        }
+
+        /* Rainbow for section titles (slower) */
+        .rainbow-title {
+            background: linear-gradient(
+                90deg,
+                #ff0000, #ff9900, #ffee00, #33ff00, #00ffee, #0066ff, #cc00ff, #ff0000
+            );
+            background-size: 400% 400%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-smooth 12s ease-in-out infinite;
+        }
+
+        /* Rainbow for logo */
+        .rainbow-logo {
+            filter: hue-rotate(0deg) saturate(1.5) brightness(1.2);
+            animation: rainbow-logo-rotate 15s linear infinite;
+        }
+
+        @keyframes rainbow-logo-rotate {
+            0% { filter: hue-rotate(0deg) saturate(1.5) brightness(1.2); }
+            25% { filter: hue-rotate(90deg) saturate(1.8) brightness(1.3); }
+            50% { filter: hue-rotate(180deg) saturate(2) brightness(1.4); }
+            75% { filter: hue-rotate(270deg) saturate(1.8) brightness(1.3); }
+            100% { filter: hue-rotate(360deg) saturate(1.5) brightness(1.2); }
+        }
+
+        /* Rainbow for buttons */
+        .rainbow-button {
+            background: linear-gradient(
+                90deg,
+                #ff0000, #ff9900, #ffee00, #33ff00, #00ffee, #0066ff, #cc00ff, #ff0000
+            );
+            background-size: 400% 400%;
+            animation: rainbow-smooth 10s ease-in-out infinite;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .rainbow-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(
+                90deg,
+                #ff0000, #ff9900, #ffee00, #33ff00, #00ffee, #0066ff, #cc00ff, #ff0000
+            );
+            background-size: 400% 400%;
+            animation: rainbow-smooth 10s ease-in-out infinite;
+            border-radius: inherit;
+            z-index: -1;
+        }
+
+        @keyframes rainbow-smooth {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Countdown Timer Styles */
+        .countdown-container {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .countdown-item {
+            text-align: center;
+            padding: 16px 12px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #8B5CF6;
+            display: block;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 8px;
+        }
+
+        /* Disclaimer Modal Styles */
+        .disclaimer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .disclaimer-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .disclaimer-content {
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(55, 48, 163, 0.1));
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(139, 92, 246, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .disclaimer-modal.active .disclaimer-content {
+            transform: scale(1);
+        }
+
+        .disclaimer-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #8B5CF6;
+        }
+
+        .disclaimer-close:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: scale(1.1);
+        }
+
+        .disclaimer-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #F59E0B, #EF4444);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: pulse-warning 2s infinite;
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+        }
+
+        .disclaimer-button {
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 24px;
+        }
+
+        .disclaimer-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        /* X (Twitter) Icon Custom Style */
+        .x-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        @media (max-width: 640px) {
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+            .countdown-label {
+                font-size: 0.75rem;
+            }
+            .disclaimer-content {
+                padding: 24px;
+                margin: 10px;
+            }
+        }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+        @keyframes float-reverse { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(20px) rotate(-5deg); } }
+        @keyframes float-complex { 0%, 100% { transform: translateY(0px) translateX(0px); } 33% { transform: translateY(-15px) translateX(10px); } 66% { transform: translateY(15px) translateX(-10px); } }
+        .floating-1 { animation: float 8s ease-in-out infinite; }
+        .floating-2 { animation: float-reverse 6s ease-in-out infinite; }
+        .floating-3 { animation: float-complex 10s ease-in-out infinite; }
+        .fade-in-up { opacity: 0; transform: translateY(60px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+        .fade-in-left { opacity: 0; transform: translateX(-60px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-left.visible { opacity: 1; transform: translateX(0); }
+        .fade-in-right { opacity: 0; transform: translateX(60px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-right.visible { opacity: 1; transform: translateX(0); }
+        .scale-in { opacity: 0; transform: scale(0.8); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .scale-in.visible { opacity: 1; transform: scale(1); }
+        .line-expand { width: 0; transition: width 1.5s ease-out; }
+        .line-expand.visible { width: 100%; }
+        .hover-lift { transition: all 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3); }
+        .hover-glow:hover { box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3); transform: translateY(-2px); }
+        .parallax-bg { background-attachment: fixed; background-size: cover; background-position: center; }
+        @media (max-width: 768px) { .parallax-bg { background-attachment: scroll !important; } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #8B5CF6, #06B6D4); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(135deg, #7C3AED, #0891B2); }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif; overflow-x: hidden; }
+        ::selection { background: rgba(139, 92, 246, 0.3); }
+        
+        /* Logo styles */
+        .logo-container {
+            filter: drop-shadow(0 10px 30px rgba(139, 92, 246, 0.4));
+        }
+        .logo-container img {
+            max-width: 120px;
+            height: auto;
+        }
+        @media (min-width: 768px) {
+            .logo-container img {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white">
+
+    <!-- Disclaimer Modal -->
+    <div id="disclaimerModal" class="disclaimer-modal active">
+        <div class="disclaimer-content">
+            <button class="disclaimer-close" onclick="closeDisclaimer()">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="disclaimer-icon">
+                <i data-lucide="alert-triangle" class="w-8 h-8 text-white"></i>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-center mb-6 text-white">Important Disclaimer</h2>
+            
+            <div class="space-y-4 text-gray-300 leading-relaxed">
+                <p>
+                    <strong class="text-purple-300">RUBA is a community-driven meme token</strong> created solely for entertainment purposes, to be used within the RUBA game as a first-layer in-game token. It is not an investment vehicle.
+                </p>
+                
+                <p>
+                    RUBA is <strong class="text-purple-300">not a financial asset, security, or utility token</strong> that grants any rights to profits, ownership, governance, or equity in any project. Its sole purpose is to function within the RUBA gaming ecosystem.
+                </p>
+                
+                <p>
+                    <strong class="text-yellow-300">Holding, exchanging, or interacting with RUBA is done entirely at your own risk.</strong> The creators of the game disclaim any responsibility for expectations of profit or financial losses.
+                </p>
+                
+                <p class="text-orange-300 font-semibold">
+                    Consult a qualified legal or financial advisor before engaging with RUBA.
+                </p>
+            </div>
+            
+            <button class="disclaimer-button" onclick="closeDisclaimer()">
+                I Understand and Agree
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center px-6 parallax-bg" 
+             style="background-image: url('https://images.pexels.com/photos/8728386/pexels-photo-8728386.jpeg');">
+        
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="floating-1 absolute top-20 left-10 w-16 h-16 border-2 border-purple-400/30 rounded-full"></div>
+            <div class="floating-2 absolute bottom-40 right-20 w-12 h-12 border-2 border-blue-400/30 rounded-lg"></div>
+            <div class="floating-3 absolute top-1/3 right-10 w-8 h-8 bg-purple-500/20 rounded-full"></div>
+        </div>
+        
+        <div class="relative z-10 text-center max-w-6xl mx-auto">
+            <!-- Logo -->
+            <div class="fade-in-up logo-container mb-8">
+                <img src="./assets/rotating_logo_3d_clean.gif" alt="RUBA Logo" class="mx-auto rainbow-logo">
+            </div>
+            
+            <div class="fade-in-up mb-8">
+                <h1 class="rainbow-text text-7xl md:text-9xl font-black mb-6 leading-none">RUBA</h1>
+                <div class="line-expand h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 mx-auto mb-8 max-w-md"></div>
+            </div>
+            <p class="fade-in-up text-2xl md:text-3xl font-light mb-8 text-gray-200 max-w-3xl mx-auto leading-relaxed">The Future of Competitive Mobile Gaming on <span class="text-purple-400 font-semibold">Solana</span></p>
+            <p class="fade-in-up text-lg md:text-xl mb-12 text-gray-300 max-w-2xl mx-auto">Enter the arena where skill meets blockchain technology. Two players, one winner, endless possibilities.</p>
+            
+            <!-- Countdown Timer -->
+            <div class="scale-in countdown-container max-w-2xl mx-auto">
+                <h3 class="text-xl font-semibold mb-4 text-purple-300">Game Launch Countdown</h3>
+                <div class="countdown-grid">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="days">180</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="hours">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="minutes">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="seconds">00</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scale-in flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <button class="hover-glow px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-xl font-semibold shadow-2xl border border-purple-400/30 backdrop-blur-sm flex items-center gap-3 transition-all duration-300"><i data-lucide="play" class="w-6 h-6"></i>Coming Soon</button>
+                <button class="hover-glow px-8 py-4 border-2 border-purple-400/50 rounded-full text-xl font-semibold backdrop-blur-sm hover:bg-purple-600/20 transition-all duration-300 flex items-center gap-3"><i data-lucide="coins" class="w-6 h-6"></i>Get RUBA Token</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-6 relative parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1637099536974-22c1d38eed51');">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="relative z-10 max-w-7xl mx-auto">
+            <div class="fade-in-up text-center mb-16">
+                <h2 class="rainbow-title text-5xl md:text-6xl font-bold mb-6">The Game Awaits</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">RUBA is revolutionizing mobile gaming with blockchain technology, creating an unprecedented competitive experience where every move matters.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-left">
+                    <div class="relative">
+                        <img src="https://images.pexels.com/photos/7562468/pexels-photo-7562468.jpeg" alt="Two people intensely focused on a mobile game competition" class="rounded-2xl shadow-2xl w-full">
+                        <div class="absolute inset-0 bg-purple-600/20 rounded-2xl"></div>
+                    </div>
+                </div>
+                <div class="fade-in-right space-y-8">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-purple-600/20 rounded-lg backdrop-blur-sm"><i data-lucide="gamepad-2" class="w-8 h-8 text-purple-400"></i></div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2 text-white">Head-to-Head Combat</h3>
+                            <p class="text-gray-300 leading-relaxed">Face off against opponents in intense 1v1 battles where strategy and skill determine the victor.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-blue-600/20 rounded-lg backdrop-blur-sm"><i data-lucide="zap" class="w-8 h-8 text-blue-400"></i></div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2 text-white">Lightning Fast</h3>
+                            <p class="text-gray-300 leading-relaxed">Built for mobile-first gaming with optimized performance and seamless blockchain integration.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-green-600/20 rounded-lg backdrop-blur-sm"><i data-lucide="shield" class="w-8 h-8 text-green-400"></i></div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2 text-white">Secure & Transparent</h3>
+                            <p class="text-gray-300 ">Powered by Solana blockchain technology ensuring fair play and transparent transactions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Token Section -->
+    <section id="token" class="py-24 px-6 relative bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="fade-in-up text-center mb-16">
+                <h2 class="rainbow-title text-5xl md:text-6xl font-bold mb-6">
+                    RUBA Token
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    Power your gameplay with RUBA tokens. Available now on the Solana blockchain.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-left space-y-6">
+                    <div class="p-8 bg-white/10 rounded-2xl backdrop-blur-sm border border-purple-400/30">
+                        <i data-lucide="coins" class="w-12 h-12 text-purple-400 mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-4 text-white">In-Game Currency</h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            RUBA tokens serve as the primary currency for gameplay, tournaments, and rewards within the ecosystem.
+                        </p>
+                    </div>
+                    <div class="p-8 bg-white/10 rounded-2xl backdrop-blur-sm border border-blue-400/30">
+                        <i data-lucide="star" class="w-12 h-12 text-blue-400 mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Early Access</h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            Token holders gain exclusive early access to beta releases, special events, and premium features.
+                        </p>
+                    </div>
+                </div>
+                <div class="fade-in-right">
+                    <div class="relative">
+                        <img src="https://images.pexels.com/photos/7788009/pexels-photo-7788009.jpeg" 
+                             alt="Cryptocurrency Trading Interface" class="rounded-2xl shadow-2xl w-full">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-600/30 to-blue-600/30 rounded-2xl"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <button class="rainbow-button hover-glow w-full px-6 py-4 rounded-xl text-lg font-semibold shadow-2xl backdrop-blur-sm flex items-center justify-center gap-3 transition-all duration-300 text-white">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                                Buy RUBA on Solana
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="py-24 px-6 relative parallax-bg" style="background-image: url('https://images.pexels.com/photos/7776899/pexels-photo-7776899.jpeg');">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="relative z-10 max-w-7xl mx-auto text-center">
+            <div class="fade-in-up mb-16">
+                <h2 class="rainbow-title text-5xl md:text-6xl font-bold mb-6">Join Our Community</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">Connect with fellow players, stay updated on development, and be part of the RUBA revolution.</p>
+            </div>
+            <div class="scale-in grid md:grid-cols-3 gap-8">
+                <a href="https://discord.gg/vxKGgkvS" target="_blank" rel="noopener noreferrer" class="hover-lift p-8 bg-white/10 rounded-2xl backdrop-blur-sm border border-purple-400/30 group">
+                    <i data-lucide="message-circle" class="w-16 h-16 text-purple-400 mx-auto mb-6 group-hover:text-purple-300 transition-colors"></i>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Discord</h3>
+                    <p class="text-gray-300">Join real-time discussions and community events</p>
+                </a>
+                <a href="https://x.com/ClubRuba?t=xKQHbQFrMr_L_kVeR4tWXQ&s=09" target="_blank" rel="noopener noreferrer" class="hover-lift p-8 bg-white/10 rounded-2xl backdrop-blur-sm border border-blue-400/30 group">
+                    <svg class="x-icon w-16 h-16 text-blue-400 mx-auto mb-6 group-hover:text-blue-300 transition-colors" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    <h3 class="text-2xl font-bold mb-4 text-white">X (Twitter)</h3>
+                    <p class="text-gray-300">Follow for the latest updates and announcements</p>
+                </a>
+                <a href="mailto:ruba.fun.club@gmail.com" class="hover-lift p-8 bg-white/10 rounded-2xl backdrop-blur-sm border border-green-400/30 group">
+                    <i data-lucide="mail" class="w-16 h-16 text-green-400 mx-auto mb-6 group-hover:text-green-300 transition-colors"></i>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Email</h3>
+                    <p class="text-gray-300">Contact us directly for partnerships and inquiries</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Open Source Section -->
+<section id="opensource" class="py-24 px-6 bg-gradient-to-br from-gray-900 via-purple-900 to-black">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="fade-in-left">
+                <h2 class="rainbow-title text-5xl md:text-6xl font-bold mb-6">
+                    Open Source
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                    RUBA believes in transparency and community-driven development. Our code is open source and available for the community to explore, contribute, and build upon.
+                </p>
+                <div class="space-y-6 mb-8">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="code" class="w-6 h-6 text-purple-400"></i>
+                        <span class="text-gray-300">Transparent development process</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="github" class="w-6 h-6 text-purple-400"></i>
+                        <span class="text-gray-300">Community contributions welcome</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="shield" class="w-6 h-6 text-purple-400"></i>
+                        <span class="text-gray-300">Auditable smart contracts</span>
+                    </div>
+                </div>
+                <a href="https://github.com/ruba-official/ruba-game" target="_blank" rel="noopener noreferrer" class="rainbow-button hover-glow px-8 py-4 rounded-full text-lg font-semibold shadow-2xl backdrop-blur-sm flex items-center gap-3 transition-all duration-300 text-white inline-flex">
+                    <i data-lucide="github" class="w-6 h-6"></i>
+                    View on GitHub
+                </a>
+            </div>
+            <div class="fade-in-right relative">
+                <div class="p-8 bg-gray-900/50 rounded-2xl backdrop-blur-sm border border-purple-400/30 font-mono text-sm">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span class="ml-4 text-gray-400">ruba-game/src</span>
+                    </div>
+                    <pre class="text-purple-300">
+// RUBA Game Core
+class RubaGame {
+  constructor() {
+    this.players = [];
+    this.blockchain = new SolanaIntegration();
+    this.gameState = 'waiting';
+  }
+  
+  async startMatch(player1, player2) {
+    // Game logic here...
+    return this.initializeGameplay();
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-black/50 border-t border-purple-400/20">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="fade-in-up">
+                <h3 class="rainbow-title text-3xl font-bold mb-4">RUBA</h3>
+                <p class="text-gray-400 mb-6">The future of competitive mobile gaming on Solana blockchain</p>
+                <div class="flex justify-center gap-6 mb-6">
+                    <a href="https://x.com/ClubRuba?t=xKQHbQFrMr_L_kVeR4tWXQ&s=09" target="_blank" rel="noopener noreferrer" class="text-purple-400 hover:text-purple-300 transition-colors hover:scale-110 transform duration-300">
+                        <span class="sr-only">X (Twitter)</span>
+                        <svg class="x-icon" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://discord.gg/vxKGgkvS" target="_blank" rel="noopener noreferrer" class="text-purple-400 hover:text-purple-300 transition-colors hover:scale-110 transform duration-300">
+                        <span class="sr-only">Discord</span>
+                        <i data-lucide="message-circle" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://github.com/ruba-official/ruba-game" target="_blank" rel="noopener noreferrer" class="text-purple-400 hover:text-purple-300 transition-colors hover:scale-110 transform duration-300">
+                        <span class="sr-only">GitHub</span>
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                    </a>
+                    <a href="mailto:ruba.fun.club@gmail.com" class="text-purple-400 hover:text-purple-300 transition-colors hover:scale-110 transform duration-300">
+                        <span class="sr-only">Email</span>
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </a>
+                </div>
+                <button onclick="showDisclaimer()" class="text-gray-500 hover:text-purple-400 transition-colors text-sm underline mb-4">
+                    View Disclaimer
+                </button>
+                <p class="text-gray-500 text-sm">© 2025 RUBA. Built on Solana blockchain.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Disclaimer Modal Functions
+        function showDisclaimer() {
+            document.getElementById('disclaimerModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDisclaimer() {
+            document.getElementById('disclaimerModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('disclaimerModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDisclaimer();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDisclaimer();
+            }
+        });
+
+        // Countdown Timer
+        function initCountdown() {
+            // Set launch date to 180 days from now
+            const launchDate = new Date();
+            launchDate.setDate(launchDate.getDate() + 180);
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = launchDate.getTime() - now;
+                
+                if (distance < 0) {
+                    document.getElementById('days').textContent = '00';
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    return;
+                }
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCountdown();
+            document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in, .line-expand').forEach(el => observer.observe(el));
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
