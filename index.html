@@ -630,11 +630,12 @@ class RubaGame {
             }
         });
 
-        // Countdown Timer
+        // Countdown Timer - FIXED VERSION
         function initCountdown() {
-            // Set launch date to 180 days from now
-            const launchDate = new Date();
-            launchDate.setDate(launchDate.getDate() + 270);
+            // Set launch date to 270 days from deployment date (June 29, 2025)
+            const deploymentDate = new Date('2025-06-29T00:00:00');
+            const launchDate = new Date(deploymentDate);
+            launchDate.setDate(deploymentDate.getDate() + 270);
             
             function updateCountdown() {
                 const now = new Date().getTime();
